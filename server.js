@@ -66,6 +66,8 @@ wss.on("connection", (socket) => {
     });
 });
 
-server.listen(3000, () => {
-    console.log("🚀 Servidor corriendo en http://localhost:3000");
+const PORT = process.env.PORT || 443;
+server.listen(PORT, () => {
+    console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
 });
+
