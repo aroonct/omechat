@@ -1,10 +1,9 @@
 {
-  "name": "omegle(omechat)",
+  "name": "omechat",
   "version": "1.0.0",
-  "description": "",
+  "description": "Chat aleatorio estilo Omegle",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "keywords": [],
@@ -13,5 +12,8 @@
   "dependencies": {
     "express": "^4.21.2",
     "ws": "^8.18.1"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
