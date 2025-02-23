@@ -1,7 +1,7 @@
 let socket;
 
 function connectWebSocket() {
-    socket = new WebSocket("wss://omechat-alpha.vercel.app");
+    socket = new WebSocket("wss://socket-server.railway.internal");
 
     socket.onopen = () => console.log("✅ Conectado al WebSocket");
     socket.onerror = (error) => console.error("⚠️ Error en WebSocket:", error);
