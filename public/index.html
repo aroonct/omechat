@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Aleatorio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Chat Aleatorio</h1>
+        <button id="connectButton">Conectar con extraños</button>
+        <button id="nextButton">Siguiente</button>
+
+        <div class="videos">
+            <div>
+                <h2>Tu cámara</h2>
+                <video id="localVideo" autoplay playsinline></video>
+            </div>
+            <div>
+                <h2>Cámara del extraño</h2>
+                <video id="remoteVideo" autoplay playsinline></video>
+            </div>
+        </div>
+
+        
+
+        <div class="chat">
+            <h2>Chat</h2>
+            <div id="chatBox"></div>
+            <input type="text" id="messageInput" placeholder="Escribe un mensaje...">
+            <button id="sendMessage">Enviar</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
