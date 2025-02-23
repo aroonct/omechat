@@ -1,7 +1,7 @@
 let socket;
 
 function connectWebSocket() {
-    socket = new WebSocket("wss://socket-server.railway.internal");
+    socket = new WebSocket("wss://socket-server-production-9f37.up.railway.app");
 
     socket.onopen = () => console.log("✅ Conectado al WebSocket");
     socket.onerror = (error) => console.error("⚠️ Error en WebSocket:", error);
