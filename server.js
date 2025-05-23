@@ -1,14 +1,11 @@
 const fs = require("fs");
-const https = require("https");
+const http = require("http");
 const express = require("express");
 const WebSocket = require("ws");
 const path = require("path");
 
 const app = express();
-const server = https.createServer({
-    cert: fs.readFileSync("/ruta/al/certificado.pem"), // Certificado SSL
-    key: fs.readFileSync("/ruta/a/la/clave_privada.pem"), // Clave privada SSL
-}, app);
+const server = http.createServer(app);
 
 const wss = new WebSocket.Server({ server });
 
@@ -66,7 +63,7 @@ wss.on("connection", (socket) => {
     });
 });
 
-const PORT = process.env.PORT || 443;
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-    console.log(`🚀 Servidor WebSocket seguro en https://omechat-alpha.vercel.app`);
+    console.log(`🚀 Servidor WebSocket escuchando en http://localhost:${PORT}`);
 });
