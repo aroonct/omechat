@@ -5,16 +5,31 @@ const WebSocket = require("ws");
 const path = require("path");
 
 const app = express();
-const server = http.createServer(app);
+const httpServer = http.createServer(app); // Renamed for clarity
 
-const wss = new WebSocket.Server({ server });
+// Healthcheck endpoint
+app.get('/healthcheck', (req, res) => {
+  res.status(200).send('Server is running and healthy!');
+});
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public"))); // Serve static files
+
+const wss = new WebSocket.Server({ server: httpServer });
+console.log('WebSocket server configured and attempting to listen...');
+
+wss.on('listening', () => {
+    console.log('✅ WebSocket server is listening for connections.');
+});
+
+wss.on('error', (error) => {
+    console.error('Error en el servidor WebSocket principal:', error);
+});
 
 let waitingUser = null;
 
-wss.on("connection", (socket) => {
-    console.log("✅ Nuevo usuario conectado");
+wss.on("connection", (socket, req) => { // req can give client IP etc.
+    const clientIp = req.socket.remoteAddress;
+    console.log(`✅ Nuevo usuario conectado desde ${clientIp}`);
 
     socket.on("message", (message) => {
         const data = JSON.parse(message);
@@ -31,10 +46,14 @@ wss.on("connection", (socket) => {
             } else {
                 waitingUser = socket;
             }
-        } 
+        }
+        else if (data.type === "test_ping") {
+            console.log(`>>> Mensaje de prueba recibido: ${data.message}`);
+            socket.send(JSON.stringify({ type: "test_pong", message: "Hello Client!" }));
+        }
         else if (data.type === "offer" && socket.partner) {
             socket.partner.send(JSON.stringify({ type: "offer", offer: data.offer }));
-        } 
+        }
         else if (data.type === "answer" && socket.partner) {
             socket.partner.send(JSON.stringify({ type: "answer", answer: data.answer }));
         } 
@@ -64,6 +83,7 @@ wss.on("connection", (socket) => {
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-    console.log(`🚀 Servidor WebSocket escuchando en http://localhost:${PORT}`);
+httpServer.listen(PORT, () => { // Make sure httpServer is used here
+    console.log(`🚀 Servidor HTTP y WebSocket escuchando en http://localhost:${PORT}`);
+    console.log(`👉 Prueba el healthcheck en http://localhost:${PORT}/healthcheck`);
 });
